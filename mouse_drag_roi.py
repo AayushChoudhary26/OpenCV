@@ -1,12 +1,12 @@
 import cv2
 
-window_width = 640
-window_height = 480
+window_width: int = 640 # Height of the cv2 window
+window_height: int = 480 # Width of the cv2 window
 
-points_1 = ()
-points_2 = ()
+points_1: tuple = () # Points of mouse down event
+points_2: tuple = () # Points of mouse up event
 
-if_mouse_up = 0
+if_mouse_up = 0 # Checking if mouse press is released
 
 def mouse_drag(event: int, x: int, y: int, flags: int, params: list) -> None:
     """Get the points at which the mouse was clicked
