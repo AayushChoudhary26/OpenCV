@@ -5,8 +5,8 @@ window_height = 480
 
 points_1 = ()
 points_2 = ()
-evt_down = 0
-evt_up = 0
+
+if_mouse_up = 0
 
 def mouse_drag(event: int, x: int, y: int, flags: int, params: list) -> None:
     """Get the points at which the mouse was clicked
@@ -19,17 +19,16 @@ def mouse_drag(event: int, x: int, y: int, flags: int, params: list) -> None:
         params (list): List of parameters
     """
     
-    global points_1, points_2, evt_down, evt_up
+    global points_1, points_2, if_mouse_up
     
     if event == cv2.EVENT_LBUTTONDOWN:
         points_1 = (x, y)
-        points_2 = (x, y)
-        evt_down = event
+        if_mouse_up = 0
 
     elif event == cv2.EVENT_LBUTTONUP:
         points_2 = (x, y)
-        evt_up = event
-
+        if_mouse_up = 1
+        
 cv2.namedWindow("Webcam")
 cv2.setMouseCallback("Webcam", mouse_drag)
 
@@ -40,9 +39,16 @@ while True:
     frame = cv2.resize(frame, (window_width, window_height))
     frame = cv2.flip(frame, 1)
     
-    if evt_down == cv2.EVENT_LBUTTONDOWN:
-        if evt_up == cv2.EVENT_LBUTTONUP:
-            frame = cv2.rectangle(frame, points_1, points_2, (255, 0, 0), 2)
+    cv2.moveWindow("Webcam", 0, 0)
+    
+    if if_mouse_up == 1:
+        frame = cv2.rectangle(frame, points_1, points_2, (255, 0, 0), 2)
+        roi_frame = frame[points_1[1]:points_2[1], points_1[0]:points_2[0]]
+        
+        cv2.moveWindow("ROI", window_width, 0)
+        # cv2.resizeWindow("ROI", points_2[0] - points_1[0], points_2[1] - points_1[1])
+        
+        cv2.imshow("ROI", roi_frame)
     
     cv2.imshow("Webcam", frame)
     
