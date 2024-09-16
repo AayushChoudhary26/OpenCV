@@ -16,10 +16,10 @@ while True:
     frame = cv2.resize(frame, (window_width, window_height))
     frame = cv2.flip(frame, 1)
     
-    xVal = cv2.getTrackbarPos("xVal", "Webcam")
-    yVal = cv2.getTrackbarPos("yVal", "Webcam")
-    width = cv2.getTrackbarPos("width", "Webcam")
-    height = cv2.getTrackbarPos("height", "Webcam")
+    xVal = cv2.getTrackbarPos("xVal", "Webcam") # Bar for changing box X coordinate
+    yVal = cv2.getTrackbarPos("yVal", "Webcam") # Bar for changing box Y coordinate
+    width = cv2.getTrackbarPos("width", "Webcam") # Bar for changing box width
+    height = cv2.getTrackbarPos("height", "Webcam") # Bar for changing box height
     
     frame = cv2.rectangle(frame, (xVal, yVal), (xVal + width, yVal + height), (255, 0, 0), 2)
     

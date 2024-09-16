@@ -6,8 +6,16 @@ window_height = 480
 circle_radius = 5
 coordinates = []
 
-def left_click(event, x, y, flags, params):
-    global points
+def left_click(event: int, x: int, y: int, flags: int, params: list) -> None:
+    """Create a list of coordinates where the mouse was clicked
+
+    Args:
+        event (int): Specifies if event occured
+        x (int): X coordinate of the mouse click
+        y (int): Y coordinate of the mouse click
+        flags (int): If any flags are set
+        params (list): List of parameters
+    """
     
     if event == cv2.EVENT_LBUTTONDOWN:
         coordinates.append((x,y))

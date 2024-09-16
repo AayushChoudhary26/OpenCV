@@ -13,7 +13,20 @@ current_x_pos = previous_x_pos = current_y_pos = previous_y_pos = 0
 current_end_x_pos = previous_end_x_pos = current_x_pos + color_bouncing_box_size
 current_end_y_pos = previous_end_y_pos = current_y_pos + color_bouncing_box_size
 
-def change_move_direction(current_x_pos, current_y_pos, current_end_x_pos, current_end_y_pos, previous_x_pos, previous_y_pos, previous_end_x_pos, previous_end_y_pos):
+def change_move_direction(current_x_pos: int, current_y_pos: int, current_end_x_pos: int, current_end_y_pos: int, previous_x_pos: int, previous_y_pos: int, previous_end_x_pos: int, previous_end_y_pos: int) -> None:
+    """Change move direction for the bouncing box
+
+    Args:
+        current_x_pos (int): Current X position of the bouncing box
+        current_y_pos (int): Current Y position of the bouncing box
+        current_end_x_pos (int): Current end X position of the bouncing box
+        current_end_y_pos (int): Current end Y position of the bouncing box
+        previous_x_pos (int): Previous X position of the bouncing box
+        previous_y_pos (int): Previous Y position of the bouncing box
+        previous_end_x_pos (int): Previous end X position of the bouncing box
+        previous_end_y_pos (int): Previous end Y position of the bouncing box
+    """
+    
     global move_direction, window_width, window_height
 
     if current_x_pos == 0 or current_y_pos == 0 or current_end_x_pos == window_width or current_end_y_pos == window_height:
@@ -29,7 +42,19 @@ def change_move_direction(current_x_pos, current_y_pos, current_end_x_pos, curre
         elif (current_end_x_pos == window_width and previous_end_y_pos > current_end_y_pos) or (current_end_y_pos == window_height and previous_end_x_pos > current_end_x_pos):
             move_direction = move_directions[0]
 
-def bouncing_box(current_x_pos, current_y_pos, current_end_x_pos, current_end_y_pos):
+def bouncing_box(current_x_pos: int, current_y_pos: int, current_end_x_pos: int, current_end_y_pos: int) -> tuple[int, int, int, int]:
+    """Change the position of the bouncing box
+
+    Args:
+        current_x_pos (int): Current X position of the bouncing box
+        current_y_pos (int): Current Y position of the bouncing box
+        current_end_x_pos (int): Current end X position of the bouncing box
+        current_end_y_pos (int): Current end Y position of the bouncing box
+
+    Returns:
+        tuple[int, int, int, int]: New position of the bouncing box
+    """
+    
     global move_direction, change_pos_step
     
     if move_direction == move_directions[0]:

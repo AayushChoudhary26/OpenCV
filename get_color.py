@@ -1,12 +1,22 @@
 import cv2
 
-window_width = 640
-window_height = 480
+window_width: int = 640 # Width of the cv2 window
+window_height: int = 480 # Height of the cv2 window
 
-points = ()
-evt = 0
+points = () # Points at which mouse occurred
+evt = 0 # If Event occurred or not
 
-def get_color(event, x, y, flags, params):
+def get_color(event: int, x: int, y: int, flags: int, params: list) -> None:
+    """Get the points at which the mouse was clicked
+
+    Args:
+        event (int): Specifies if event occured
+        x (int): Position of x coordinate
+        y (int): Position of y coordinate
+        flags (int): If any flags are set
+        params (list): List of parameters
+    """
+    
     global points, evt
     
     if event == cv2.EVENT_LBUTTONDOWN:
