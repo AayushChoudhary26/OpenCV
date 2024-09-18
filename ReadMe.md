@@ -32,6 +32,15 @@ This program allows you to adjust a rectangle's position and size dynamically us
   - Real-time display of the rectangle as the values are adjusted
   - Press 'q' to quit the application
 
+### 4. `bouncing_masked_logo.py`
+This program expresses how to mask a image to add it to the camera fram or another image. The logo is then bounced like bouncing box, the parts where logo is colored is diplayed on the frame, else it is replaced by the background camera frame
+
+- **Libraries**: OpenCV (`cv2`)
+- **Features**:
+  - Changeable images and sizes to control logo displaced on the frame
+  - Bouncing steps can be changed to make the speed of logo increase or decrease
+  - Press 'q' to quit the application
+
 ## Requirements
 - Python 3.x
 - OpenCV (`cv2`)
