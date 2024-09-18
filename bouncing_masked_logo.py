@@ -1,17 +1,23 @@
 import cv2
 
-window_width = 640
-window_height = 480
+window_width = 480
+window_height = 240
 
-color_bouncing_box_size = 100
-change_pos_step = 10
+mask_logo_size = 64
+change_pos_step = 8
 
 move_directions = ['left-up', 'left-down', 'right-up', 'right-down']
 move_direction = move_directions[3]
 
 current_x_pos = previous_x_pos = current_y_pos = previous_y_pos = 0
-current_end_x_pos = previous_end_x_pos = current_x_pos + color_bouncing_box_size
-current_end_y_pos = previous_end_y_pos = current_y_pos + color_bouncing_box_size
+current_end_x_pos = previous_end_x_pos = current_x_pos + mask_logo_size
+current_end_y_pos = previous_end_y_pos = current_y_pos + mask_logo_size
+
+python_logo = cv2.resize(cv2.imread("images/python_logo.jpg"), (64, 64))
+python_logo_gray = cv2.cvtColor(python_logo, cv2.COLOR_BGR2GRAY)
+python_logo_BG_MASK = cv2.threshold(python_logo_gray, 230, 255, cv2.THRESH_BINARY)[1]
+python_logo_FG_MASK = cv2.bitwise_not(python_logo_BG_MASK)
+FG_frame = cv2.bitwise_and(python_logo, python_logo, mask=python_logo_FG_MASK)
 
 def change_move_direction(current_x_pos: int, current_y_pos: int, current_end_x_pos: int, current_end_y_pos: int, previous_x_pos: int, previous_y_pos: int, previous_end_x_pos: int, previous_end_y_pos: int) -> None:
     """Change move direction for the bouncing box
@@ -84,6 +90,23 @@ def bouncing_box(current_x_pos: int, current_y_pos: int, current_end_x_pos: int,
     return (current_x_pos, current_y_pos, current_end_x_pos, current_end_y_pos)
 
 cv2.namedWindow("Webcam")
+cv2.namedWindow("Python Logo")
+cv2.namedWindow("Python Logo BG Mask")
+cv2.namedWindow("Python Logo FG Mask")
+cv2.namedWindow("BG_frame")
+cv2.namedWindow("FG_frame")
+cv2.namedWindow("Frame_logo")
+cv2.namedWindow("Final_frame")
+
+cv2.moveWindow("Python Logo", window_width, 0)
+cv2.moveWindow("Python Logo BG Mask", window_width * 2, 0)
+cv2.moveWindow("Python Logo FG Mask", window_width * 3, 0)
+cv2.moveWindow("FG_frame", window_width, window_height * 2)
+
+cv2.imshow("Python Logo", python_logo_gray)
+cv2.imshow("Python Logo BG Mask", python_logo_BG_MASK)
+cv2.imshow("Python Logo FG Mask", python_logo_FG_MASK)
+cv2.imshow("FG_frame", FG_frame)
 
 cam = cv2.VideoCapture(0)
 while True:
@@ -92,21 +115,29 @@ while True:
     frame = cv2.resize(frame, (window_width, window_height))
     frame = cv2.flip(frame, 1)
     
-    grayframe = frame.copy()
-    grayframe = cv2.cvtColor(grayframe, cv2.COLOR_BGR2GRAY)
-    
-    cv2.moveWindow("Webcam", 0, 0)
-    
     current_x_pos, current_y_pos, current_end_x_pos, current_end_y_pos = bouncing_box(current_x_pos, current_y_pos, current_end_x_pos, current_end_y_pos)
     change_move_direction(current_x_pos, current_y_pos, current_end_x_pos, current_end_y_pos, previous_x_pos, previous_y_pos, previous_end_x_pos, previous_end_y_pos)
     
     print(f"Current X Pos: {current_x_pos}, Current Y Pos: {current_y_pos}, Current End X Pos: {current_end_x_pos}, Current End Y Pos: {current_end_y_pos}")
     
-    grayframe = cv2.rectangle(grayframe, (current_x_pos, current_y_pos), (current_end_x_pos, current_end_y_pos), (0, 0, 255), 3)
-    grayframe = cv2.cvtColor(grayframe, cv2.COLOR_GRAY2BGR)
-    grayframe[current_y_pos:current_end_y_pos, current_x_pos:current_end_x_pos] = frame[current_y_pos:current_end_y_pos, current_x_pos:current_end_x_pos]
+    BG_frame = cv2.bitwise_and(
+        frame[current_y_pos:current_end_y_pos, current_x_pos:current_end_x_pos], 
+        frame[current_y_pos:current_end_y_pos, current_x_pos:current_end_x_pos], 
+        mask=python_logo_BG_MASK)
     
-    cv2.imshow("Webcam", grayframe)
+    frame_logo = cv2.add(FG_frame, BG_frame)
+    final_frame = frame.copy()
+    final_frame[current_y_pos:current_end_y_pos, current_x_pos:current_end_x_pos] = frame_logo
+    
+    cv2.moveWindow("Webcam", 0, 0)
+    cv2.moveWindow("BG_frame", 0, window_height * 2)
+    cv2.moveWindow("Frame_logo", window_width * 2, window_height * 2)
+    cv2.moveWindow("Final_frame", window_width * 3, window_height * 2)
+    
+    cv2.imshow("Webcam", frame)
+    cv2.imshow("BG_frame", BG_frame)
+    cv2.imshow("Frame_logo", frame_logo)
+    cv2.imshow("Final_frame", final_frame)
     
     if cv2.waitKey(1) == ord('q'):
         break
