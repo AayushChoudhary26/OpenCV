@@ -63,8 +63,8 @@ while True:
             x, y, w, h = cv2.boundingRect(contour)
             print(f"X: {x}, Y: {y}, W: {w}, H: {h}")
             
-            cv2.line(frame, ((x + w) // 2, 0), ((x + w) // 2, window_height), (255, 0, 0), 2)
-            cv2.line(frame, (0, (y + h) // 2), (window_width, (y + h) // 2), (255, 0, 0), 2)
+            cv2.line(frame, (x + w // 2, 0), (x + w // 2, window_height), (255, 0, 0), 2)
+            cv2.line(frame, (0, y + h // 2), (window_width, y + h // 2), (255, 0, 0), 2)
     
     cv2.imshow("Webcam", frame)
     cv2.imshow("Composite", composite_frame)
