@@ -3,7 +3,7 @@ import cv2
 window_width = 640
 window_height = 480
 
-def get_positions(cascade_filename: str) -> tuple[int, int, int, int]:
+def get_positions(cascade_filename: str, frame: cv2.VideoCapture) -> tuple[int, int, int, int]:
     """Get position of cascades detected in the frame
 
     Args:
@@ -14,7 +14,7 @@ def get_positions(cascade_filename: str) -> tuple[int, int, int, int]:
     """
     
     cascade = cv2.CascadeClassifier(cascade_filename)
-    object_postitions = cascade.detectMultiScale(gray_frame, 1.3, 5)
+    object_postitions = cascade.detectMultiScale(frame, 1.3, 5)
     
     return object_postitions
 
@@ -27,10 +27,10 @@ while True:
     
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     
-    for (x, y, w, h) in get_positions("xml_files/haarcascade_eye.xml"):
+    for (x, y, w, h) in get_positions("xml_files/haarcascade_eye.xml", gray_frame):
         frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
     
-    for (x, y, w, h) in get_positions("xml_files/haarcascade_frontalface_default.xml"):
+    for (x, y, w, h) in get_positions("xml_files/haarcascade_frontalface_default.xml", gray_frame):
         frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
     
     cv2.imshow("Webcam", frame)
