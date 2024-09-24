@@ -5,6 +5,7 @@ This repository is dedicated to tracking my progress in writing various AI-relat
 ## Programs
 
 ### 1. `bouncing_box.py`
+
 This script creates a bouncing box animation on a webcam feed. The box moves in different directions and changes direction when it hits the boundaries of the window.
 
 - **Libraries**: OpenCV (`cv2`)
@@ -14,6 +15,7 @@ This script creates a bouncing box animation on a webcam feed. The box moves in 
   - Press 'q' to quit the application
 
 ### 2. `track_mouse.py`
+
 This script tracks mouse clicks on the webcam feed, drawing circles at the clicked coordinates and displaying their x, y values. It also provides an option to clear the screen.
 
 - **Libraries**: OpenCV (`cv2`)
@@ -24,6 +26,7 @@ This script tracks mouse clicks on the webcam feed, drawing circles at the click
   - Press 'c' to clear all circles from the screen
 
 ### 3. `trackbars.py`
+
 This program allows you to adjust a rectangle's position and size dynamically using trackbars, which control the x, y coordinates and the width, height of the rectangle on the webcam feed.
 
 - **Libraries**: OpenCV (`cv2`)
@@ -33,6 +36,7 @@ This program allows you to adjust a rectangle's position and size dynamically us
   - Press 'q' to quit the application
 
 ### 4. `bouncing_masked_logo.py`
+
 This program expresses how to mask a image to add it to the camera fram or another image. The logo is then bounced like bouncing box, the parts where logo is colored is diplayed on the frame, else it is replaced by the background camera frame
 
 - **Libraries**: OpenCV (`cv2`)
@@ -42,20 +46,28 @@ This program expresses how to mask a image to add it to the camera fram or anoth
   - Press 'q' to quit the application
 
 ## Requirements
+
 - Python 3.x
 - OpenCV (`cv2`)
 
 To install OpenCV:
+
 ```bash
+
 pip install opencv-python
 ```
 
 ## How to Run
+
 Each script can be run by executing the Python file in your terminal or command line:
+
 ```bash
+
 python <script_name.py>
 ```
+
 Make sure your webcam is accessible.
 
 ## Future Work
+
 This repository will be updated with more AI programs, building upon these fundamental concepts. Stay tuned!
